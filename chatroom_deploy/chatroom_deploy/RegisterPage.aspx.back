@@ -1,0 +1,128 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="RegisterPage.aspx.cs" Inherits="RegisterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+    <form id="form1" runat="server">
+    <div align="center">
+        <table>
+            <tr>
+                <td colspan="1">
+                    注册账号 </td>
+            </tr>
+            <tr>
+                <td style="width:100px" align="right">
+                    用户名 </td>
+                <td style="width:100px">
+                    <input id="txt_name" name="txt_name" type="text" runat="server" onchange="checkName();" />
+                </td>
+                <td style="width:100px" align="left">
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="用户名不能为空!"
+                        ControlToValidate="txt_name" Width="140px" Font-Size="X-Small">
+                    </asp:RequiredFieldValidator>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px" align="right">
+                    密码
+                </td>
+                <td style="width:100px">
+                    <asp:TextBox ID="txt_password" runat="server" TextMode="Password" Width="149px"></asp:TextBox>
+                </td>
+                <td style="width: 100px" align="left">
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="密码不能为空!"
+                        ControlToValidate="txt_password" Width="138px" Font-Size="X-Small">
+                    </asp:RequiredFieldValidator>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px" align="right">
+                    电子邮箱
+                </td>
+                <td style="width:100px">
+                    <asp:TextBox ID="txt_email" runat="server"></asp:TextBox>
+                </td>
+                <td style="width:100px" align="left">
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="邮 件 格 式 不 正 确 !"
+                        ControlToValidate="txt_email" SetFocusOnError="True" ValidationExpression="w+([-+.']\w+)*@\w+([-.]\w+) *\.\w+([-.]\w+)*"
+                        Width="134px" Font-Size="X-Small">
+                    </asp:RegularExpressionValidator>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:100px" align="right">
+                 姓名</td>
+                 <td style="width:100px">
+                    <asp:TextBox ID="txt_realname" runat="server"></asp:TextBox>
+                 </td>
+                 <td style="width:100px">
+                 </td>
+            </tr>
+            <tr>
+                <td style="width:100px" align="right">
+                    年龄</td>
+                <td style="width:100px">
+                    <asp:TextBox ID="txt_age" runat="server"></asp:TextBox>
+                </td>
+                <td style="width:100px" align="left">
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server"
+                        ErrorMessage="需要数字！" ControlToValidate="txt_age" 
+                        ValidationExpression="^[0-9]*[1-9][0-9]*$" Font-Size="X-Small"></asp:RegularExpressionValidator>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:100px" align="right">
+                    性别</td>
+                <td style="width:100px">
+                    <asp:TextBox ID="txt_sex" runat="server"></asp:TextBox></td>
+                <td style="width:100px" align="left">
+                </td>
+            </tr>
+            <tr>
+                <td style="width:100px">
+                </td>
+                <td style="width:100px" align="left">
+                    <asp:Button ID="Button1" runat="server" Text="注 册" onclick="Button1_Click" 
+                        Width="49px" /></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+    <script language="javascript" type="text/javascript">
+        var xmlHttp = false;
+        function checkName() {
+            if (window.ActiveXObject) {
+                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            else if (window.XMLHttpRequest) {
+                xmlHttp = new XMLHttpRequest();
+            }
+
+            if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
+                xmlHttp = new XMLHttpRequest();
+            }
+            var name = document.getElementById("txt_name").value;
+            if (name == "") {
+                alert("用户名为空!");
+                return;
+            }
+            //var URL = "../ChatRoom/ServerPage.aspx?name=" + escape(name);
+            var URL = "/ServerPage.aspx?name=" + escape(name);
+            xmlHttp.open("GET", URL, true);
+            xmlHttp.onreadystatechange = updatePage;
+            xmlHttp.send(null);
+        }
+
+        function updatePage() {
+            if (xmlHttp.readyState == 4)
+            {
+                var response = xmlHttp.responseText;
+                if (response != "") {
+                    alert(response);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
